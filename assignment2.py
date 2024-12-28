@@ -4,10 +4,7 @@ import speech_recognition as sr
 import pyttsx3  
 
 duration = 5 
-
-
 sample_rate = 44100  
-
 engine = pyttsx3.init()  
   
 def generate_response(text):  
@@ -17,11 +14,8 @@ def generate_response(text):
         "what is your name": "I am your voice assistant.",  
         "what can you do": "I can help you with various tasks, like answering questions or recording notes.",  
         "exit": "Goodbye!"  
-    }  
-
-   
+    }    
     text = text.lower()  
-
     for key in responses:  
         if key in text:  
             return responses[key]   
@@ -65,15 +59,12 @@ def main():
             print(f"Assistant: {response}")
             speak_text(response)
 
-            # Exit the loop if the user says "exit"  
             if "exit" in user_prompt.lower():  
                 break  
 
-        else:  # If the user wants to speak (voice input)
-            # Record audio  
+        else:
             audio_data = record_audio(duration, sample_rate)  
 
-            # Recognize speech  
             recognized_text = recognize_speech(audio_data, sample_rate)  
 
             if recognized_text:  
@@ -81,7 +72,6 @@ def main():
                 print(f"Assistant: {response}")  
                 speak_text(response)  
 
-                # Exit the loop if the user says "exit"  
                 if "exit" in recognized_text.lower():  
                     break  
             else:  

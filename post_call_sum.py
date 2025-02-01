@@ -17,25 +17,22 @@ def analyze_call_and_update_crm(call_text, phone_number, crm_excel_path, api_key
     Returns:
         str: Success message or error message.
     """
-    # Configure Gemini API
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel(model_name)
 
     try:
-        # Load CRM data
+    
         crm_df = pd.read_excel(crm_excel_path)
 
-        # Check if "post call analysis" column exists, if not, add it
         if "post call analysis" not in crm_df.columns:
             crm_df["post call analysis"] = ""
 
-        # Match the contact using the phone number
+    
         contact_row = crm_df[crm_df["phone_number"].astype(str) == str(phone_number)]
 
         if contact_row.empty:
             return "Error: No matching contact found for the provided phone number."
 
-        # Extract Sentiment, Tone, Intent, Pitch, and Key Discussions using Gemini API
         prompt_extraction = f"""
         Analyze the following call text and extract the following attributes:
         - Sentiment
@@ -65,7 +62,6 @@ def analyze_call_and_update_crm(call_text, phone_number, crm_excel_path, api_key
         except Exception as e:
             return f"Error during extraction with Gemini API: {e}"
 
-        # Prepare Post Call Analysis Prompt
         prompt_analysis = f"""
         Based on the following extracted details and CRM data, generate a post-call analysis:
 
@@ -89,17 +85,14 @@ def analyze_call_and_update_crm(call_text, phone_number, crm_excel_path, api_key
         except Exception as e:
             return f"Error during post-call analysis generation with Gemini API: {e}"
 
-        # Update CRM DataFrame
         crm_df.loc[crm_df["phone_number"].astype(str) == str(phone_number), "post call analysis"] = post_call_analysis
 
-        # Save updated CRM file
         crm_df.to_excel(crm_excel_path, index=False)
         return "Post call analysis successfully updated in the CRM file."
 
     except Exception as e:
         return f"An error occurred: {e}"
 
-# Example usage
 if __name__ == "__main__":
     # Replace with your actual details and API key
     sample_call_text = "This is very bad product. You should work more on the UI and functionalities."

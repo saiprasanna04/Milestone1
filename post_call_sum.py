@@ -17,7 +17,7 @@ def analyze_call_and_update_crm(call_text, phone_number, crm_excel_path, api_key
     Returns:
         str: Success message or error message.
     """
-    genai.configure(api_key='hf_YYKuTzNDzLsmSy.....ceqbGtXExFpU')
+    genai.configure(api_key=API_KEY)
     model = genai.GenerativeModel(model_name)
 
     try:
@@ -71,13 +71,10 @@ def analyze_call_and_update_crm(call_text, phone_number, crm_excel_path, api_key
         Intent: {extracted_details['intent']}
         Pitch: {extracted_details['pitch']}
         Key Discussions: {extracted_details['key_discussions']}
-
         CRM Data:
         {contact_row.to_string(index=False)}
-
         Provide the analysis in a concise and actionable manner.
         """
-
         try:
             analysis_response = model.generate_content(prompt_analysis)
             post_call_analysis = analysis_response.text.strip()
@@ -96,8 +93,7 @@ def analyze_call_and_update_crm(call_text, phone_number, crm_excel_path, api_key
 if __name__ == "__main__":
     sample_call_text = "This is very bad product. You should work more on the UI and functionalities."
     sample_phone_number = "001-601-522-0792"
-    crm_data_path = "crm_data.xlsx"  # Path to uploaded CRM Excel file
-    gemini_api_key = os.environ.get("GEMINI_API_KEY")  # Replace with your Gemini API key
-
+    crm_data_path = "C:/Users/gutta/OneDrive/Desktop/Sales_Assistant_Project/sales_assistant_env/crm_data (1).xlsx" 
+    gemini_api_key = os.environ.get("AIzaSyDgQXs8mcC47MP96MsE9tXYOw9jNsA07wE")  
     result = analyze_call_and_update_crm(sample_call_text, sample_phone_number, crm_data_path, gemini_api_key)
     print(result)

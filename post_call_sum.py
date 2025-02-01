@@ -17,7 +17,7 @@ def analyze_call_and_update_crm(call_text, phone_number, crm_excel_path, api_key
     Returns:
         str: Success message or error message.
     """
-    genai.configure(api_key=api_key)
+    genai.configure(api_key='hf_YYKuTzNDzLsmSy.....ceqbGtXExFpU')
     model = genai.GenerativeModel(model_name)
 
     try:
@@ -94,7 +94,6 @@ def analyze_call_and_update_crm(call_text, phone_number, crm_excel_path, api_key
         return f"An error occurred: {e}"
 
 if __name__ == "__main__":
-    # Replace with your actual details and API key
     sample_call_text = "This is very bad product. You should work more on the UI and functionalities."
     sample_phone_number = "001-601-522-0792"
     crm_data_path = "crm_data.xlsx"  # Path to uploaded CRM Excel file
